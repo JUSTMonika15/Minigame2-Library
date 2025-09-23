@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
+using UnityEngine.UI;
 
 public class ChoiceHandler : MonoBehaviour
 {
-    public TextMeshProUGUI[] options;
+    public Text[] options;
     private int currentIndex = 0;
     private float holdTime = 0f;
     public float confirmDuration = 2f; //how many seconds you need to hold the space bar to confirm

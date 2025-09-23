@@ -1,0 +1,146 @@
+{
+    "nodes": [
+        {
+            "key": "",
+            "storyText": [
+                "The character first starts by waking up in the library all alone and confused.",
+                "They call out to see if anyone else is there, but they get no response."
+            ],
+            "option": ["Look for a door", "Sleep more"]
+        },
+        {
+            "key": "A",
+            "storyText": [
+                "After wandering around the floor for a few minutes they finally find a door that may lead out.",
+                "They try the door several times but it is unfortunately locked and they will need to find a key."
+            ],
+            "option": ["Explore for the key", "Look for help"]
+        },
+        {
+            "key": "B",
+            "storyText": [
+                "You fall back asleep hoping that you wake up back in your bed and that this is just a bad dream."
+            ],
+            "option": null
+        },
+        {
+            "key": "AA",
+            "storyText": [
+                "You wander around the library some more and after 15 minutes of searching, you finally find a key.",
+                "This excites you so much that you start cheering and making noise inside the library.",
+                "You hear someone clear their throat and quickly turn around to see a librarian standing right behind you.",
+                "She looks like your average librarian that you have had in school before, but something about her just seems off.",
+                "Player*I am so sorry for being loud I thought I was the only one here. Do you happen to know a way out?",
+                "Librarian*Yes of course there is a door at the end of the hallway that leads out, but I can’t seem to find the key. Have you seen any keys around?"
+            ],
+            "option": ["Tell the truth and say you found a key", "Lie and say you haven’t seen any"]
+        },
+        {
+            "key": "AB",
+            "storyText": [
+                "You search the library for 20 minutes and right when you are about to give up hope, you see a librarian putting books away.",
+                "She looks normal from the outside, but something about her is offputting.",
+                "You question why she never responded to your calls for help, and why she is the only other person here."
+            ],
+            "option": ["Continue your search to find someone else", "Go up and talk to the librarian"]
+        },
+        {
+            "key": "AAA",
+            "storyText": [
+                "Being the kind person you are, you explain how you just found a key and was going to try and test it out.",
+                "She snatches the key out of your hand and you quickly lose consciousness."
+            ],
+            "option": null
+        },
+        {
+            "key": "AAB",
+            "storyText": [
+                "After she walks out of view to go shelf books, you quickly run over to the door and try the key.",
+                "It unfortunately does not work and you scream out in anger.",
+                "The librarian hears this and comes running towards you!"
+            ],
+            "option": ["Quickly hide the key in a nearby book", "Run though the shelves and try to lose her"]
+        },
+        {
+            "key": "ABA",
+            "storyText": [
+                "You search for hours looking for someone else and have almost lost your voice from yelling for help.",
+                "Right when you are about to lose hope, a book on the ground catches your eye.",
+                "It doesn’t look like the other books in the library so you pick it up and start reading.",
+                "It becomes obvious after reading a few pages that this is the librarian’s personal journal.",
+                "You feel bad about reading through such a personal item, but your curiosity gets the better of you so you continue reading.",
+                "You flip through the pages till you get to the most recent entry from last week.",
+                "She talks about how she almost died last week from accidentally touching someone that had peanuts on it, which she is extremely allergic to.",
+                "Fortunately she had an epi-pen on her so she was ok, but it was her last one so she can’t have another reaction.",
+                "You make a mental note of this and set the book down right where you found it.",
+                "Continuing on with your journey you come across a vending machine that happens to have a pack of peanuts in it."
+            ],
+            "option": ["Buy the pack of peanuts", "Try to find the key to open the door"]
+        },
+        {
+            "key": "ABB",
+            "storyText": [
+                "You go up to her and tap her on the shoulder to get her attention.",
+                "You ask, \"Hello, I was wondering if you know how to open the door to get out of here?\"",
+                "Being the kind person you are, you explain how you just found a key and was going to try and test it out.",
+                "The librarian replies, \"I do know how to open it.\"",
+                "Hope blossoms in your voice, \"That's great! I have been trying to find a way out for so long.\"",
+                "\"Can you open it so I can leave?\"",
+                "But the librarian only smiles, her tone gentle yet final.",
+                "\"Leave? Honey, no one leaves here.\"",
+                "The librarian starts smiling with an evil grin, so you start to run away.",
+                "You accidentally trip over a book and fall and hit your head."
+            ],
+            "option": null
+        },
+        {
+            "key": "AABA",
+            "storyText": "To-do",
+            "option": null
+        },
+        {
+            "key": "AABB",
+            "storyText": "To-do",
+            "option": null
+        },
+        {
+            "key": "ABAA",
+            "storyText": [
+                "You somehow have the perfect amount of change in your pocket to buy the peanuts so you quickly do.",
+                "In the reflection of the glass, you see a picture hanging up on the wall behind you.",
+                "In it you notice that the librarian is wearing a necklace that has a key on it, that looks to be the right size for the door to escape."
+            ],
+            "option": ["Confront the librarian", "Try to find something to break the door down with"]
+        },
+        {
+            "key": "ABAB",
+            "storyText": [
+                "You spend the rest of the day searching for the right key, but have found nothing.",
+                "Hope is lost and you decide to go back to the desk that you woke up on.",
+                "With nothing left to do and no escape plan in mind.",
+                "You fall asleep and hope that when you wake up that this was all a bad dream."
+            ],
+            "option": null
+        },
+        {
+            "key": "ABAAA",
+            "storyText": [
+                "You sprint around the library trying to find her and when you finally do she is standing guard right in front of the door.",
+                "Your voice trembles, \"Please open the door so I can go home.\"",
+                "\"My family is probably worried sick wondering where I am.\"",
+                "In contrast, the librarian's voice is calm and certain.",
+                "\"You are meant to be here, you need to stay.\"",
+                "You realize that she is not going to back down, so you quickly grab the peanuts from your pocket and throw them at her.",
+                "She falls to the ground and quickly goes unconscious.",
+                "Quickly you grab the key from around her neck and thankfully it opens the door.",
+                "You run out and embrace your freedom and make a note to never step foot in a library again."
+            ],
+            "option": null
+        },
+        {
+            "key": "ABAAB",
+            "storyText": "To-do",
+            "option": null
+        }
+    ]
+}
