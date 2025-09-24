@@ -64,7 +64,8 @@ public class ChoiceHandler : MonoBehaviour
         // link to story manager
         if (storyManager != null)
         {
-            storyManager.OnChoiceConfirmed(currentIndex);
+            string choice = currentIndex == 0 ? "A" : "B";
+            storyManager.OnChoiceConfirmed(choice);
         }
     }
 }
