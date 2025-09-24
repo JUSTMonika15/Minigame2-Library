@@ -100,4 +100,10 @@ public class StoryManager : MonoBehaviour
         option[0].gameObject.SetActive(true);
         option[1].gameObject.SetActive(true);
     }
+
+    public void OnChoiceConfirmed(int choiceIndex)
+    {
+        Debug.Log("StoryManager received choice: " + choiceIndex);
+        //TODO jump to the next choice
+    }
 }

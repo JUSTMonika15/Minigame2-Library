@@ -7,9 +7,11 @@ public class ChoiceHandler : MonoBehaviour
     public Text[] options;
     private int currentIndex = 0;
     private float holdTime = 0f;
-    public float confirmDuration = 2f; //how many seconds you need to hold the space bar to confirm
+    public float confirmDuration = 1f; //how many seconds you need to hold the space bar to confirm
     private bool isHolding = false;
 
+    //adding link to story
+    public StoryManager storyManager;
     void Start()
     {
         HighlightOption();
@@ -59,5 +61,10 @@ public class ChoiceHandler : MonoBehaviour
     void ConfirmOption()
     {
         Debug.Log("Confirmed option: " + currentIndex);
+        // link to story manager
+        if (storyManager != null)
+        {
+            storyManager.OnChoiceConfirmed(currentIndex);
+        }
     }
 }
