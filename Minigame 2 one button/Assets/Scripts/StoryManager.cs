@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +13,20 @@ public class ScenarioWrapper
 public class StoryManager : MonoBehaviour
 {
     public Text storyTextUI;
+    private TextAsset jsonFile;
     private Dictionary<string, StoryNode> storyNodes;
     public Text[] option;
+
+    void Awake()
+    {
+        // Load JSON text file from Resources
+        jsonFile = Resources.Load<TextAsset>("Scenario");
+        if (jsonFile == null)
+        {
+            Debug.LogError("Scenario file not found in Resources");
+            return;
+        }
+    }
 
     void Start()
     {
@@ -29,15 +42,6 @@ public class StoryManager : MonoBehaviour
 
     void LoadScenario()
     {
-        // Load JSON text file from Resources
-        TextAsset jsonFile = Resources.Load<TextAsset>("Scenario");
-
-        if (jsonFile == null)
-        {
-            Debug.LogError("Scenario file not found in Resources");
-            return;
-        }
-
         // Parse to JsonUtility
         ScenarioWrapper wrapper = JsonUtility.FromJson<ScenarioWrapper>(jsonFile.text);
 

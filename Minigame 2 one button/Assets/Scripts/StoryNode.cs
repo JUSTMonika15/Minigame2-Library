@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StoryNode : MonoBehaviour
+[System.Serializable]
+public class StoryNode
 {
     public string key;
     public string[] storyText; // Story text for the current node
