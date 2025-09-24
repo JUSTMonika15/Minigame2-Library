@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +15,7 @@ public class StoryManager : MonoBehaviour
     private TextAsset jsonFile;
     private Dictionary<string, StoryNode> storyNodes;
     public Text[] option;
+    private string currentKey;
 
     void Awake()
     {
@@ -37,7 +37,8 @@ public class StoryManager : MonoBehaviour
         option[1].gameObject.SetActive(false);
 
         LoadScenario();
-        ShowStory("");
+        currentKey = "";
+        ShowStory(currentKey);
     }
 
     void LoadScenario()
@@ -68,8 +69,6 @@ public class StoryManager : MonoBehaviour
 
     void ShowStory(string nodeKey)
     {
-        int index = 0;
-
         if (!storyNodes.ContainsKey(nodeKey))
         {
             storyTextUI.text = "Node not found: " + nodeKey;
@@ -90,7 +89,7 @@ public class StoryManager : MonoBehaviour
         foreach (string line in node.storyText)
         {
             storyTextUI.text = line;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(2f);
         }
 
         option[0].text = node.option[0];
@@ -101,9 +100,10 @@ public class StoryManager : MonoBehaviour
         option[1].gameObject.SetActive(true);
     }
 
-    public void OnChoiceConfirmed(int choiceIndex)
+    public void OnChoiceConfirmed(string choice)
     {
-        Debug.Log("StoryManager received choice: " + choiceIndex);
-        //TODO jump to the next choice
+        Debug.Log("StoryManager received choice: " + choice);
+        currentKey += choice;
+        ShowStory(currentKey);
     }
 }
