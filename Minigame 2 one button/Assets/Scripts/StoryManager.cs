@@ -17,6 +17,7 @@ public class StoryManager : MonoBehaviour
     public Text[] option;
     private string currentKey;
 
+
     void Awake()
     {
         // Load JSON text file from Resources
