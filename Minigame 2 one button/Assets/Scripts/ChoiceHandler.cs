@@ -13,9 +13,13 @@ public class ChoiceHandler : MonoBehaviour
 
     //adding link to story
     public StoryManager storyManager;
+
+    public Image holdProgressImage;
+    public Vector2 progressBarOffset = new Vector2(0, -30); // The bar will show below the options，can be changed in the inspector
     void Start()
     {
         HighlightOption();
+        holdProgressImage.fillAmount = 0f;
     }
 
     void Update()
@@ -25,12 +29,22 @@ public class ChoiceHandler : MonoBehaviour
         {
             isHolding = true;
             holdTime = 0f;
+            if (holdProgressImage != null)
+            {
+                MoveProgressBarToCurrentOption();
+                holdProgressImage.gameObject.SetActive(true);
+                holdProgressImage.fillAmount = 0f;
+            }
         }
 
         //hold space add more time
         if (isHolding && Keyboard.current.spaceKey.isPressed)
         {
             holdTime += Time.deltaTime;
+            if (holdProgressImage != null)
+            {
+                holdProgressImage.fillAmount = Mathf.Clamp01(holdTime / confirmDuration);
+            }
         }
 
         //release the space bar and count time
@@ -47,6 +61,11 @@ public class ChoiceHandler : MonoBehaviour
             }
             isHolding = false;
             holdTime = 0f;
+            if (holdProgressImage != null)
+            {
+                holdProgressImage.gameObject.SetActive(false);
+                holdProgressImage.fillAmount = 0f;
+            }
         }
 
     }
@@ -59,6 +78,16 @@ public class ChoiceHandler : MonoBehaviour
         }
     }
 
+    void MoveProgressBarToCurrentOption()
+    {
+        if (holdProgressImage != null && options != null && options.Length > currentIndex)
+        {
+            // let the bar follows the option
+            RectTransform optionRect = options[currentIndex].GetComponent<RectTransform>();
+            RectTransform barRect = holdProgressImage.GetComponent<RectTransform>();
+            barRect.position = optionRect.position + (Vector3)progressBarOffset;
+        }
+    }
     void ConfirmOption()
     {
         // link to story manager
