@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,10 @@ public class ScenarioWrapper
 
 public class StoryManager : MonoBehaviour
 {
-    public Text storyTextUI;
+    public TMP_Text storyTmp;
     private TextAsset jsonFile;
     private Dictionary<string, StoryNode> storyNodes;
-    public Text[] option;
+    public TMP_Text[] option;
     private string currentKey;
 
     void Awake()
@@ -69,9 +70,10 @@ public class StoryManager : MonoBehaviour
 
     void ShowStory(string nodeKey)
     {
+        Debug.Log("Current story key: " + currentKey);
         if (!storyNodes.ContainsKey(nodeKey))
         {
-            storyTextUI.text = "Node not found: " + nodeKey;
+            storyTmp.text = "Node not found: " + nodeKey;
             return;
         }
 
@@ -82,22 +84,34 @@ public class StoryManager : MonoBehaviour
 
     IEnumerator ShowStoryCoroutine(StoryNode node)
     {
-        storyTextUI.text = "";
+        storyTmp.text = "";
 
         // TODO: change delay time
+        // TODO: stack story text (not disappearing)
         // Show story text
         foreach (string line in node.storyText)
         {
-            storyTextUI.text = line;
-            yield return new WaitForSeconds(2f);
+            storyTmp.text = line;
+            yield return TypingEffect(storyTmp);
+            yield return new WaitForSeconds(1f);
         }
 
-        option[0].text = node.option[0];
-        option[1].text = node.option[1];
+        Debug.Log(node.option);
+        // Empty option -> Reset story (Bad end, loop)
+        if (node.option.Length == 0)
+        {
+            currentKey = "";
+            ShowStory(currentKey);
+        }
+        else
+        {
+            option[0].text = node.option[0];
+            option[1].text = node.option[1];
 
-        // Show option text
-        option[0].gameObject.SetActive(true);
-        option[1].gameObject.SetActive(true);
+            // Show option text
+            option[0].gameObject.SetActive(true);
+            option[1].gameObject.SetActive(true);
+        }
     }
 
     public void OnChoiceConfirmed(string choice)
@@ -105,5 +119,24 @@ public class StoryManager : MonoBehaviour
         Debug.Log("StoryManager received choice: " + choice);
         currentKey += choice;
         ShowStory(currentKey);
+
+        // Hide option text
+        option[0].gameObject.SetActive(false);
+        option[1].gameObject.SetActive(false);
+    }
+
+    IEnumerator TypingEffect(TMP_Text tmpText, float delay = 0.05f)
+    {
+        tmpText.ForceMeshUpdate();
+        TMP_TextInfo textInfo = tmpText.textInfo;
+        int totalVisibleCharacters = textInfo.characterCount;
+        int visibleCount = 0;
+
+        while (visibleCount <= totalVisibleCharacters)
+        {
+            tmpText.maxVisibleCharacters = visibleCount;
+            visibleCount++;
+            yield return new WaitForSeconds(delay);
+        }
     }
 }

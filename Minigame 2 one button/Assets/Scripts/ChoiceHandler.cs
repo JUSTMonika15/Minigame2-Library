@@ -1,10 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ChoiceHandler : MonoBehaviour
 {
-    public Text[] options;
+    public TMP_Text[] options;
     private int currentIndex = 0;
     private float holdTime = 0f;
     public float confirmDuration = 1f; //how many seconds you need to hold the space bar to confirm
@@ -60,11 +61,11 @@ public class ChoiceHandler : MonoBehaviour
 
     void ConfirmOption()
     {
-        Debug.Log("Confirmed option: " + currentIndex);
         // link to story manager
         if (storyManager != null)
         {
             string choice = currentIndex == 0 ? "A" : "B";
+            Debug.Log("Confirmed option: " + choice);
             storyManager.OnChoiceConfirmed(choice);
         }
     }
