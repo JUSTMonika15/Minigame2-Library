@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 1040453251}
   - component: {fileID: 1040453250}
   m_Layer: 5
-  m_Name: Option2Text
+  m_Name: OptionBText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -839,8 +839,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c056a8e868cc40c091b26cb0ba9f4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
-  storyTextUI: {fileID: 0}
-  option: []
+  storyTextUI: {fileID: 381853703}
+  option:
+  - {fileID: 1226682371}
+  - {fileID: 1040453250}
 --- !u!4 &2023747982
 Transform:
   m_ObjectHideFlags: 0
