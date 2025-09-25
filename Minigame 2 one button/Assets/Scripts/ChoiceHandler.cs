@@ -24,6 +24,13 @@ public class ChoiceHandler : MonoBehaviour
 
     void Update()
     {
+
+        bool anyOptionActive = options != null && options.Length > 0 && System.Array.Exists(options, o => o.gameObject.activeSelf);
+        if (holdProgressImage != null)
+            holdProgressImage.gameObject.SetActive(anyOptionActive);
+
+        if (!anyOptionActive)
+            return;
         //press space for switching New: I found out that hold the space still trigger this press logic, so I need to count how long we press
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
