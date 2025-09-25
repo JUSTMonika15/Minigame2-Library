@@ -90,9 +90,11 @@ public class ChoiceHandler : MonoBehaviour
         if (holdProgressImage != null && options != null && options.Length > currentIndex)
         {
             // let the bar follows the option
-            RectTransform optionRect = options[currentIndex].GetComponent<RectTransform>();
+            //  set as a child
+            holdProgressImage.transform.SetParent(options[currentIndex].transform, false);
+            // set offset
             RectTransform barRect = holdProgressImage.GetComponent<RectTransform>();
-            barRect.position = optionRect.position + (Vector3)progressBarOffset;
+            barRect.anchoredPosition = progressBarOffset;
         }
     }
     void ConfirmOption()
