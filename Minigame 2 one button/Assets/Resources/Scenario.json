@@ -1,18 +1,37 @@
 {
     "nodes": [
         {
+            "key": "T1",
+            "storyText": [
+                "Welcome to our one-button story game!",
+                "In this game, you will be presented with a series of choices that will determine the outcome of the story.",
+                "Use the space bar to choose between the two options presented to you, and hold down to select the option you want.",
+                "Lets practice this now!"
+            ],
+            "option": ["Don't Click This", "Click This"]
+        },
+        {
+            "key": "T2",
+            "storyText": [
+                "Good job!",
+                "You can also use the space bar to skip through text if you want to read faster.",
+                "Now that you know how to play, let's start the game!"
+            ],
+            "option": ["Start Game", "Repeat the Tutorial"] 
+        },
+        {
             "key": "",
             "storyText": [
-                "The character first starts by waking up in the library all alone and confused.",
-                "They call out to see if anyone else is there, but they get no response."
+                "You open your eyes and find yourself in an unfamiliar library all alone and confused.",
+                "You call out to see if anyone else is there, but you get no response."
             ],
             "option": ["Look for a door", "Sleep more"]
         },
         {
             "key": "A",
             "storyText": [
-                "After wandering around the floor for a few minutes they finally find a door that may lead out.",
-                "They try the door several times but it is unfortunately locked and they will need to find a key."
+                "After wandering around for an hour you finally find a door that may lead out.",
+                "You try the door several times but it is unfortunately locked and you will need to find a key."
             ],
             "option": ["Explore for the key", "Look for help"]
         },
@@ -30,9 +49,8 @@
                 "This excites you so much that you start cheering and making noise inside the library.",
                 "You hear someone clear their throat and quickly turn around to see a librarian standing right behind you.",
                 "She looks like your average librarian that you have had in school before, but something about her just seems off.",
-                "You ask, \"I am so sorry for being loud I thought I was the only one here. Do you happen to know a way out?\"",
-                "The librarian says, \"Yes of course there is a door at the end of the hallway that leads out, but I can’t seem to find the key.\"",
-                "\"Have you seen any keys around?\""
+                "Player*I am so sorry for being loud I thought I was the only one here. Do you happen to know a way out?",
+                "Librarian*Yes of course there is a door at the end of the hallway that leads out, but I can’t seem to find the key. Have you seen any keys around?"
             ],
             "option": ["Tell the truth and say you found a key", "Lie and say you haven’t seen any"]
         },
@@ -96,13 +114,25 @@
         },
         {
             "key": "AABA",
-            "storyText": "To-do",
+            "storyText": [
+                "You grab a book off of the shelf and quickly hide the key inside.",
+                "The librarian comes running up to you and asks if you have seen the key.",
+                "You nervously say no and she starts looking around.",
+                "After a few minutes of searching she gives up and walks away.",
+                "You breathe a sigh of relief and continue your search for the key.",
+                "After hours of searching you finally decide to give up and go back to the desk.",
+                "You lay your head down and think about how you will never escape this place."
+            ],
             "option": null
         },
         {
             "key": "AABB",
-            "storyText": "To-do",
-            "option": null
+            "storyText": [
+                "You sprint as fast as you can through the shelves trying to lose her.",
+                "Unfortunately you are not fast enough and she quickly catches up to you.",
+                "She grabs you and pulls you right outside the restricted section of the library."
+            ],
+            "option": ["Try to fight and escape", "Offer her the key"]
         },
         {
             "key": "ABAA",
@@ -140,8 +170,36 @@
         },
         {
             "key": "ABAAB",
-            "storyText": "To-do",
+            "storyText": [
+                "After sprinting through several aisles you finally find something that catches your eye.",
+                "A fire extinguisher is mounted on the wall and you quickly grab it and run back to the door.",
+                "You use all of your strength to try smashing the door down, but it accidentally bursts open right in your face and knocks you out cold."
+            ],
             "option": null
-        }
+        },
+        {
+            "key": "AABBA",
+            "storyText": [
+                "You fight back with all your might, but she is too strong.",
+                "A pencil on the ground causes you to trip, fall, and hit your head.",
+                "Before the darkness takes you, you hear her say, \"You will understand soon enough.\""
+            ],
+            "option": null
+        },
+        {
+            "key": "AABBB",
+            "storyText": [
+                "'Here take it,' you say handing her the key.",
+                "'I just want to go home.'",
+                "'Haven't you figured it out yet? No one leaves here.'",
+                "''What do you mean no one leaves here?' you ask confused.'",
+                "'I am retiring now and you are going to take my place. Use the key and go into the restricted section to learn about your new duties.'",
+                "'Wait, what? No, I just want to go home,' you say starting to panic.",
+                "'You don't have a choice,' she says sternly.",
+                "'Now go into the restricted section and find the book that has your name on it. Good luck.'",
+                "She walks away into the darkness and all you can do is sit and cry while you accept your new fate."
+            ],
+            "option": null
+        },
     ]
 }
