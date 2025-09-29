@@ -30,8 +30,9 @@
                 "This excites you so much that you start cheering and making noise inside the library.",
                 "You hear someone clear their throat and quickly turn around to see a librarian standing right behind you.",
                 "She looks like your average librarian that you have had in school before, but something about her just seems off.",
-                "Player*I am so sorry for being loud I thought I was the only one here. Do you happen to know a way out?",
-                "Librarian*Yes of course there is a door at the end of the hallway that leads out, but I can’t seem to find the key. Have you seen any keys around?"
+                "You ask, \"I am so sorry for being loud I thought I was the only one here. Do you happen to know a way out?\"",
+                "The librarian says, \"Yes of course there is a door at the end of the hallway that leads out, but I can’t seem to find the key.\"",
+                "\"Have you seen any keys around?\""
             ],
             "option": ["Tell the truth and say you found a key", "Lie and say you haven’t seen any"]
         },

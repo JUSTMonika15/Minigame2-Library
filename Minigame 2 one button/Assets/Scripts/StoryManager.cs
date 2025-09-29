@@ -133,11 +133,13 @@ public class StoryManager : MonoBehaviour
         int totalVisibleCharacters = textInfo.characterCount;
         int visibleCount = 0;
 
+        AudioManager.instance.PlayTyping();
         while (visibleCount <= totalVisibleCharacters)
         {
             tmpText.maxVisibleCharacters = visibleCount;
             visibleCount++;
             yield return new WaitForSeconds(delay);
         }
+        AudioManager.instance.StopTyping();
     }
 }

@@ -41,6 +41,7 @@ public class ChoiceHandler : MonoBehaviour
                 MoveProgressBarToCurrentOption();
                 holdProgressImage.gameObject.SetActive(true);
                 holdProgressImage.fillAmount = 0f;
+                AudioManager.instance.PlaySFX("Click");
             }
         }
 
@@ -102,6 +103,7 @@ public class ChoiceHandler : MonoBehaviour
         // link to story manager
         if (storyManager != null)
         {
+            AudioManager.instance.PlaySFX("Bell");
             string choice = currentIndex == 0 ? "A" : "B";
             Debug.Log("Confirmed option: " + choice);
             storyManager.OnChoiceConfirmed(choice);
