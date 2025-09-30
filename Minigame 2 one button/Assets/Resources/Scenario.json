@@ -1,25 +1,6 @@
 {
     "nodes": [
         {
-            "key": "T1",
-            "storyText": [
-                "Welcome to our one-button story game!",
-                "In this game, you will be presented with a series of choices that will determine the outcome of the story.",
-                "Use the space bar to choose between the two options presented to you, and hold down to select the option you want.",
-                "Lets practice this now!"
-            ],
-            "option": ["Don't Click This", "Click This"]
-        },
-        {
-            "key": "T2",
-            "storyText": [
-                "Good job!",
-                "You can also use the space bar to skip through text if you want to read faster.",
-                "Now that you know how to play, let's start the game!"
-            ],
-            "option": ["Start Game", "Repeat the Tutorial"] 
-        },
-        {
             "key": "",
             "storyText": [
                 "You open your eyes and find yourself in an unfamiliar library all alone and confused.",
@@ -200,6 +181,6 @@
                 "She walks away into the darkness and all you can do is sit and cry while you accept your new fate."
             ],
             "option": null
-        },
+        }
     ]
 }

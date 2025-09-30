@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class ScenarioWrapper
@@ -13,38 +12,39 @@ public class ScenarioWrapper
 public class StoryManager : MonoBehaviour
 {
     public TMP_Text storyTmp;
-    private TextAsset jsonFile;
     private Dictionary<string, StoryNode> storyNodes;
     public TMP_Text[] option;
     private string currentKey;
-
+    private bool tutorialCompleted = false;
 
     void Awake()
     {
+        
+    }
+
+    void Start()
+    {
+        // Hide option text
+        option[0].gameObject.SetActive(false);
+        option[1].gameObject.SetActive(false);
+
+        LoadScenario("Tutorial");
+        currentKey = "";
+        ShowStory(currentKey);
+    }
+
+    void LoadScenario(string fileName)
+    {
+        TextAsset jsonFile;
+
         // Load JSON text file from Resources
-        jsonFile = Resources.Load<TextAsset>("Scenario");
+        jsonFile = Resources.Load<TextAsset>(fileName);
         if (jsonFile == null)
         {
             Debug.LogError("Scenario file not found in Resources");
             return;
         }
-    }
 
-    void Start()
-    {
-        storyNodes = new Dictionary<string, StoryNode>();
-
-        // Hide option text
-        option[0].gameObject.SetActive(false);
-        option[1].gameObject.SetActive(false);
-
-        LoadScenario();
-        currentKey = "";
-        ShowStory(currentKey);
-    }
-
-    void LoadScenario()
-    {
         // Parse to JsonUtility
         ScenarioWrapper wrapper = JsonUtility.FromJson<ScenarioWrapper>(jsonFile.text);
 
@@ -55,6 +55,7 @@ public class StoryManager : MonoBehaviour
         }
 
         // Save to Dictionary
+        storyNodes = new Dictionary<string, StoryNode>();
         foreach (StoryNode node in wrapper.nodes)
         {
             if (!storyNodes.ContainsKey(node.key))
@@ -74,7 +75,10 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current story key: " + currentKey);
         if (!storyNodes.ContainsKey(nodeKey))
         {
-            storyTmp.text = "Node not found: " + nodeKey;
+            tutorialCompleted = true;
+            LoadScenario("Scenario");
+            currentKey = "";
+            ShowStory(currentKey);
             return;
         }
 
@@ -126,7 +130,7 @@ public class StoryManager : MonoBehaviour
         option[1].gameObject.SetActive(false);
     }
 
-    IEnumerator TypingEffect(TMP_Text tmpText, float delay = 0.05f)
+    IEnumerator TypingEffect(TMP_Text tmpText, float delay = 0.03f)
     {
         tmpText.ForceMeshUpdate();
         TMP_TextInfo textInfo = tmpText.textInfo;

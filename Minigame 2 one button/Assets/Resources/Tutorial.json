@@ -1,0 +1,37 @@
+{
+    "nodes": [
+        {
+            "key": "",
+            "storyText": [
+                "Welcome to our one-button story game!",
+                "In this game, you will be presented with a series of choices that will determine the outcome of the story.",
+                "Use the space bar to choose between the two options presented to you, and hold down to select the option you want.",
+                "Lets practice this now!"
+            ],
+            "option": ["Don't Click This", "Click This"]
+        },
+        {
+            "key": "A",
+            "storyText": [
+                "Let's try again."
+            ],
+            "option": null
+        },
+        {
+            "key": "B",
+            "storyText": [
+                "Good job!",
+                "You can also use the space bar to skip through text if you want to read faster.",
+                "Now that you know how to play, let's start the game!"
+            ],
+            "option": ["Start Game", "Repeat the Tutorial"]
+        },
+        {
+            "key": "BB",
+            "storyText": [
+                "Let's repeat the tutorial."
+            ],
+            "option": null
+        }
+    ]
+}
