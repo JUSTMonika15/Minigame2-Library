@@ -773,7 +773,7 @@ MonoBehaviour:
   confirmDuration: 1
   storyManager: {fileID: 2023747981}
   holdProgressImage: {fileID: 1476813420}
-  progressBarOffset: {x: 0, y: -50}
+  progressBarOffset: {x: 0, y: -60}
 --- !u!4 &1078444053
 Transform:
   m_ObjectHideFlags: 0
