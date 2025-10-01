@@ -30,7 +30,13 @@ public class ChoiceHandler : MonoBehaviour
             holdProgressImage.gameObject.SetActive(anyOptionActive);
 
         if (!anyOptionActive)
+        {
+            if (Keyboard.current.spaceKey.wasPressedThisFrame && storyManager != null)
+            {
+                storyManager.OnAdvanceOrFastForward();
+            }
             return;
+        }
         //press space for switching New: I found out that hold the space still trigger this press logic, so I need to count how long we press
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {

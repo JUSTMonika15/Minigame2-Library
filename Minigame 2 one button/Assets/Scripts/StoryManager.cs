@@ -16,7 +16,11 @@ public class StoryManager : MonoBehaviour
     public TMP_Text[] option;
     private string currentKey;
     private bool tutorialCompleted = false;
-
+    // var for forwarding story
+    private bool isTyping = false;
+    private Coroutine typingCoroutine;
+    private StoryNode currentNode;
+    private int currentLineIndex = 0;
     void Awake()
     {
         
@@ -83,8 +87,9 @@ public class StoryManager : MonoBehaviour
         }
 
         StoryNode node = storyNodes[nodeKey];
+        currentLineIndex = 0;
         StopAllCoroutines();
-        StartCoroutine(ShowStoryCoroutine(node));
+        typingCoroutine = StartCoroutine(ShowStoryCoroutine(currentNode));
     }
 
     IEnumerator ShowStoryCoroutine(StoryNode node)
@@ -94,11 +99,22 @@ public class StoryManager : MonoBehaviour
         // TODO: change delay time
         // TODO: stack story text (not disappearing)
         // Show story text
-        foreach (string line in node.storyText)
+        // show by lines
+        while (currentLineIndex < node.storyText.Length)
         {
-            storyTmp.text = line;
+            storyTmp.text = node.storyText[currentLineIndex];
             yield return TypingEffect(storyTmp);
-            yield return new WaitForSeconds(1f);
+            isTyping = false;
+
+            // wait for space to continue
+            bool next = false;
+            while (!next)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                    next = true;
+                yield return null;
+            }
+            currentLineIndex++;
         }
 
         Debug.Log(node.option);
@@ -116,6 +132,25 @@ public class StoryManager : MonoBehaviour
             // Show option text
             option[0].gameObject.SetActive(true);
             option[1].gameObject.SetActive(true);
+        }
+    }
+
+    public void OnAdvanceOrFastForward()
+    {
+        // if is typing, skip to the end of current text
+        if (isTyping)
+        {
+            if (typingCoroutine != null)
+            {
+                StopCoroutine(typingCoroutine);
+                storyTmp.maxVisibleCharacters = storyTmp.text.Length;
+                isTyping = false;
+            }
+        }
+        else
+        {
+            // if not typing, go to next line 
+            // leave empty
         }
     }
 
@@ -137,6 +172,7 @@ public class StoryManager : MonoBehaviour
         int totalVisibleCharacters = textInfo.characterCount;
         int visibleCount = 0;
 
+        isTyping = true;
         AudioManager.instance.PlayTyping();
         while (visibleCount <= totalVisibleCharacters)
         {
@@ -145,5 +181,6 @@ public class StoryManager : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
         AudioManager.instance.StopTyping();
+        isTyping = false;
     }
 }
