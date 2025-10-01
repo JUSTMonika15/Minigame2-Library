@@ -16,11 +16,14 @@ public class StoryManager : MonoBehaviour
     public TMP_Text[] option;
     private string currentKey;
     private bool tutorialCompleted = false;
-    // var for forwarding story
-    private bool isTyping = false;
-    private Coroutine typingCoroutine;
+    //adding typing var
     private StoryNode currentNode;
     private int currentLineIndex = 0;
+    private Coroutine typingRoutine;
+    private bool isTyping = false;
+    private bool skipTyping = false;
+    
+
     void Awake()
     {
         
@@ -86,12 +89,36 @@ public class StoryManager : MonoBehaviour
             return;
         }
 
-        StoryNode node = storyNodes[nodeKey];
-        currentLineIndex = 0;
+        currentNode = storyNodes[nodeKey];
+        // reset line index
         StopAllCoroutines();
-        typingCoroutine = StartCoroutine(ShowStoryCoroutine(currentNode));
+        typingRoutine = null;
+        isTyping = false;
+        skipTyping = false;
+
+        storyTmp.text = "";
+        currentLineIndex = 0;
+
+        // start showing story
+        ShowNextLineOrOptions();
     }
 
+    public void OnAdvanceOrFastForward()
+    {
+        if (currentNode == null) return;
+
+        if (isTyping)
+        {
+            //first time pressing space during typing: fast forward to complete current line
+            skipTyping = true;
+        }
+        else
+        {
+            // Not typing: second space press/afterwards: go to next line or show options
+            currentLineIndex++;
+            ShowNextLineOrOptions();
+        }
+    }
     IEnumerator ShowStoryCoroutine(StoryNode node)
     {
         storyTmp.text = "";
@@ -99,22 +126,11 @@ public class StoryManager : MonoBehaviour
         // TODO: change delay time
         // TODO: stack story text (not disappearing)
         // Show story text
-        // show by lines
-        while (currentLineIndex < node.storyText.Length)
+        foreach (string line in node.storyText)
         {
-            storyTmp.text = node.storyText[currentLineIndex];
+            storyTmp.text = line;
             yield return TypingEffect(storyTmp);
-            isTyping = false;
-
-            // wait for space to continue
-            bool next = false;
-            while (!next)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                    next = true;
-                yield return null;
-            }
-            currentLineIndex++;
+            yield return new WaitForSeconds(1f);
         }
 
         Debug.Log(node.option);
@@ -134,24 +150,42 @@ public class StoryManager : MonoBehaviour
             option[1].gameObject.SetActive(true);
         }
     }
-
-    public void OnAdvanceOrFastForward()
+    private void ShowNextLineOrOptions()
     {
-        // if is typing, skip to the end of current text
-        if (isTyping)
+        // story line available
+        if (currentNode != null && currentLineIndex < currentNode.storyText.Length)
         {
-            if (typingCoroutine != null)
-            {
-                StopCoroutine(typingCoroutine);
-                storyTmp.maxVisibleCharacters = storyTmp.text.Length;
-                isTyping = false;
-            }
+            StartTypingCurrentLine();
+            return;
+        }
+
+        // No story line available: enter branching or reset
+        if (currentNode != null && currentNode.option != null && currentNode.option.Length > 0)
+        {
+            option[0].text = currentNode.option[0];
+            option[1].text = currentNode.option[1];
+            option[0].gameObject.SetActive(true);
+            option[1].gameObject.SetActive(true);
         }
         else
         {
-            // if not typing, go to next line 
-            // leave empty
+            // No options available: loop back to start or your desired "bad ending/reset" logic
+            currentKey = "";
+            ShowStory(currentKey);
         }
+    }
+
+        private void StartTypingCurrentLine()
+    {
+        if (typingRoutine != null) StopCoroutine(typingRoutine);
+
+        string line = currentNode.storyText[currentLineIndex];
+
+        // set text and reset
+        storyTmp.text = line;
+        storyTmp.maxVisibleCharacters = 0;
+
+        typingRoutine = StartCoroutine(TypingEffect(storyTmp));
     }
 
     public void OnChoiceConfirmed(string choice)
@@ -167,20 +201,34 @@ public class StoryManager : MonoBehaviour
 
     IEnumerator TypingEffect(TMP_Text tmpText, float delay = 0.03f)
     {
+        isTyping = true;
+        skipTyping = false;
+
         tmpText.ForceMeshUpdate();
         TMP_TextInfo textInfo = tmpText.textInfo;
         int totalVisibleCharacters = textInfo.characterCount;
         int visibleCount = 0;
 
-        isTyping = true;
         AudioManager.instance.PlayTyping();
+
         while (visibleCount <= totalVisibleCharacters)
         {
+            if (skipTyping)
+            {
+                // show all characters immediately
+                tmpText.maxVisibleCharacters = totalVisibleCharacters;
+                break;
+            }
+
             tmpText.maxVisibleCharacters = visibleCount;
             visibleCount++;
             yield return new WaitForSeconds(delay);
         }
+
         AudioManager.instance.StopTyping();
+
+        // Complete the line display and enter "wait for player to press space to continue" state
         isTyping = false;
+        typingRoutine = null;
     }
 }
