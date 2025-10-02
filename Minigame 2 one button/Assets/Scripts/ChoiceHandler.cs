@@ -15,6 +15,8 @@ public class ChoiceHandler : MonoBehaviour
     public StoryManager storyManager;
 
     public Image holdProgressImage;
+    public Image fadeImg;
+    public Transform storyImgContainerTransform;
     public Vector2 progressBarOffset = new Vector2(0, -30); // The bar will show below the options，can be changed in the inspector
     void Start()
     {
@@ -29,14 +31,18 @@ public class ChoiceHandler : MonoBehaviour
         if (holdProgressImage != null)
             holdProgressImage.gameObject.SetActive(anyOptionActive);
 
-        if (!anyOptionActive)
-        {
-            if (Keyboard.current.spaceKey.wasPressedThisFrame && storyManager != null)
+        // Return if image coroutine is ongoing
+        if (fadeImg.color.a > 0) return;
+        if (storyImgContainerTransform.childCount > 1) return;
+
+            if (!anyOptionActive)
             {
-                storyManager.OnAdvanceOrFastForward();
+                if (Keyboard.current.spaceKey.wasPressedThisFrame && storyManager != null)
+                {
+                    storyManager.OnAdvanceOrFastForward();
+                }
+                return;
             }
-            return;
-        }
         //press space for switching New: I found out that hold the space still trigger this press logic, so I need to count how long we press
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {

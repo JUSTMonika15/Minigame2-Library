@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class ScenarioWrapper
@@ -11,23 +12,17 @@ public class ScenarioWrapper
 
 public class StoryManager : MonoBehaviour
 {
+    public Image storyImg, fadeImg;
     public TMP_Text storyTmp;
     private Dictionary<string, StoryNode> storyNodes;
     public TMP_Text[] option;
     private string currentKey;
-    private bool tutorialCompleted = false;
     //adding typing var
     private StoryNode currentNode;
     private int currentLineIndex = 0;
     private Coroutine typingRoutine;
     private bool isTyping = false;
     private bool skipTyping = false;
-    
-
-    void Awake()
-    {
-        
-    }
 
     void Start()
     {
@@ -82,16 +77,15 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Current story key: " + currentKey);
         if (!storyNodes.ContainsKey(nodeKey))
         {
-            tutorialCompleted = true;
             LoadScenario("Scenario");
-            currentKey = "";
-            ShowStory(currentKey);
+            StartCoroutine(RestartStory());
             return;
         }
 
         currentNode = storyNodes[nodeKey];
         // reset line index
-        StopAllCoroutines();
+        if (typingRoutine != null)
+            StopCoroutine(typingRoutine);
         typingRoutine = null;
         isTyping = false;
         skipTyping = false;
@@ -119,37 +113,7 @@ public class StoryManager : MonoBehaviour
             ShowNextLineOrOptions();
         }
     }
-    IEnumerator ShowStoryCoroutine(StoryNode node)
-    {
-        storyTmp.text = "";
-
-        // TODO: change delay time
-        // TODO: stack story text (not disappearing)
-        // Show story text
-        foreach (string line in node.storyText)
-        {
-            storyTmp.text = line;
-            yield return TypingEffect(storyTmp);
-            yield return new WaitForSeconds(1f);
-        }
-
-        Debug.Log(node.option);
-        // Empty option -> Reset story (Bad end, loop)
-        if (node.option.Length == 0)
-        {
-            currentKey = "";
-            ShowStory(currentKey);
-        }
-        else
-        {
-            option[0].text = node.option[0];
-            option[1].text = node.option[1];
-
-            // Show option text
-            option[0].gameObject.SetActive(true);
-            option[1].gameObject.SetActive(true);
-        }
-    }
+   
     private void ShowNextLineOrOptions()
     {
         // story line available
@@ -159,8 +123,15 @@ public class StoryManager : MonoBehaviour
             return;
         }
 
+        // Only one option available: Go back to tutorial
+        if (currentNode != null && currentNode.option != null && currentNode.option.Length == 1)
+        {
+            LoadScenario("Tutorial");
+            StartCoroutine(RestartStory());
+        }
+
         // No story line available: enter branching or reset
-        if (currentNode != null && currentNode.option != null && currentNode.option.Length > 0)
+        else if (currentNode != null && currentNode.option != null && currentNode.option.Length > 0)
         {
             option[0].text = currentNode.option[0];
             option[1].text = currentNode.option[1];
@@ -170,22 +141,55 @@ public class StoryManager : MonoBehaviour
         else
         {
             // No options available: loop back to start or your desired "bad ending/reset" logic
-            currentKey = "";
-            ShowStory(currentKey);
+            StartCoroutine(RestartStory());
         }
     }
 
-        private void StartTypingCurrentLine()
+    private void StartTypingCurrentLine()
     {
         if (typingRoutine != null) StopCoroutine(typingRoutine);
 
         string line = currentNode.storyText[currentLineIndex];
+
+        // Load image
+        if (line.Contains('*'))
+        {
+            StartCoroutine(ShowSprite(line.Split('*')[1]));
+            return;
+        }
 
         // set text and reset
         storyTmp.text = line;
         storyTmp.maxVisibleCharacters = 0;
 
         typingRoutine = StartCoroutine(TypingEffect(storyTmp));
+    }
+
+    private IEnumerator ShowSprite(string fileName)
+    {
+        Debug.Log($"Showing sprite {fileName}");
+        // Create new image
+        Image newImg = Instantiate(storyImg, storyImg.transform.parent);
+        newImg.sprite = Resources.Load<Sprite>($"Sprites/{fileName}");
+
+        // Set layer order
+        storyImg.transform.SetAsLastSibling();
+
+        // Fade out original image and delete it
+        for (float t = 0; t < 1f; t += Time.deltaTime)
+        {
+            Color c = storyImg.color;
+            c.a = Mathf.Lerp(1f, 0f, t);
+            storyImg.color = c;
+            yield return null;
+        }
+        Destroy(storyImg.gameObject);
+
+        // Switch storyImg to newImg
+        storyImg = newImg;
+
+        currentLineIndex++;
+        ShowNextLineOrOptions();
     }
 
     public void OnChoiceConfirmed(string choice)
@@ -230,5 +234,44 @@ public class StoryManager : MonoBehaviour
         // Complete the line display and enter "wait for player to press space to continue" state
         isTyping = false;
         typingRoutine = null;
+    }
+
+    private IEnumerator RestartStory()
+    {
+        option[0].gameObject.SetActive(false);
+        option[1].gameObject.SetActive(false);
+        if (typingRoutine != null)
+            StopCoroutine(typingRoutine);
+        typingRoutine = null;
+        isTyping = false;
+
+        Debug.Log("Fade in");
+        // Fade in
+        for (float t = 0; t < 1f; t += Time.deltaTime)
+        {
+            Color c = fadeImg.color;
+            c.a = Mathf.Lerp(0f, 1f, t);
+            fadeImg.color = c;
+            yield return null;
+        }
+
+        // Reset scene
+        storyImg.sprite = Resources.Load<Sprite>("Sprites/library");
+        storyTmp.text = "";
+        currentKey = "";
+
+        Debug.Log("Fade out");
+        // Fade out
+        for (float t = 0; t < 1f; t += Time.deltaTime)
+        {
+            Color c = fadeImg.color;
+            c.a = Mathf.Lerp(1f, 0f, t);
+            fadeImg.color = c;
+            yield return null;
+        }
+
+        fadeImg.color = new Color(0f, 0f, 0f, 0f);
+        
+        ShowStory(currentKey);
     }
 }
