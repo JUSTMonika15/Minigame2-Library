@@ -26,7 +26,6 @@ public class ChoiceHandler : MonoBehaviour
 
     void Update()
     {
-
         bool anyOptionActive = options != null && options.Length > 0 && System.Array.Exists(options, o => o.gameObject.activeSelf);
         if (holdProgressImage != null)
             holdProgressImage.gameObject.SetActive(anyOptionActive);
